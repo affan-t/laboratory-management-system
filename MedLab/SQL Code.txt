@@ -1,0 +1,72 @@
+//MS SQL Code for Database
+
+//Create Database
+Create Database MediLabDb
+
+//Admin Table
+CREATE TABLE [dbo].[Admin] (
+    [AdminId]     INT          NOT NULL,
+    [AdminUser]   VARCHAR (10) NOT NULL,
+    [AdminPass]   VARCHAR (20) NOT NULL,
+    [SecurityKey] VARCHAR (30) NOT NULL,
+    PRIMARY KEY CLUSTERED ([AdminId] ASC)
+);
+
+//Laboratorian Table
+CREATE TABLE [dbo].[LaboratorianTbl] (
+    [LabId]      INT           IDENTITY (1000, 1) NOT NULL,
+    [LabName]    VARCHAR (50)  NOT NULL,
+    [LabPhone]   VARCHAR (20)  NOT NULL,
+    [LabGender]  VARCHAR (10)  NOT NULL,
+    [LabAddress] VARCHAR (100) NOT NULL,
+    [LabDOB]     DATE          NOT NULL,
+    [LabUsername] VARCHAR(10) NOT NULL, 
+    [LabPassword] VARCHAR(20) NOT NULL, 
+    PRIMARY KEY CLUSTERED ([LabId] ASC)
+);
+
+//Machine Table
+CREATE TABLE [dbo].[MachineTbl] (
+    [MachineId]   INT          IDENTITY (1, 1) NOT NULL,
+    [MachineName] VARCHAR (50) NOT NULL,
+    [MainCost]    INT          NOT NULL,
+    [MainDate]    DATE         NOT NULL,
+    PRIMARY KEY CLUSTERED ([MachineId] ASC)
+);
+
+//Patients table
+CREATE TABLE [dbo].[PatientTbl] (
+    [PatNum]   INT           IDENTITY (5000, 1) NOT NULL,
+    [PatName]  VARCHAR (50)  NOT NULL,
+    [PatGen]   VARCHAR (10)  NOT NULL,
+    [PatAdd]   VARCHAR (100) NOT NULL,
+    [PatPhone] VARCHAR (50)  NOT NULL,
+    [PatDOB]   DATE          NOT NULL,
+    PRIMARY KEY CLUSTERED ([PatNum] ASC)
+);
+
+//Result Table
+CREATE TABLE [dbo].[ResultTbl] (
+    [ResNum]       INT           IDENTITY (3000, 1) NOT NULL,
+    [PatId]        INT           NOT NULL,
+    [PatName]      VARCHAR (50)  NOT NULL,
+    [Laboratorian] INT           NOT NULL,
+    [LabName]      VARCHAR (50)  NOT NULL,
+    [TestDone]     VARCHAR (150) NOT NULL,
+    [Test]         INT           NOT NULL,
+    [TestCost]     INT           NOT NULL,
+    [TestDate]     DATE          NOT NULL,
+    PRIMARY KEY CLUSTERED ([ResNum] ASC),
+    CONSTRAINT [FK1] FOREIGN KEY ([PatId]) REFERENCES [dbo].[PatientTbl] ([PatNum]),
+    CONSTRAINT [FK2] FOREIGN KEY ([Laboratorian]) REFERENCES [dbo].[LaboratorianTbl] ([LabId]),
+    CONSTRAINT [FK3] FOREIGN KEY ([Test]) REFERENCES [dbo].[TestTbl] ([TestCode])
+);
+
+//Test Table
+CREATE TABLE [dbo].[TestTbl] (
+    [TestCode] INT          IDENTITY (3000, 1) NOT NULL,
+    [TestName] VARCHAR (50) NOT NULL,
+    [TestCost] INT          NOT NULL,
+    PRIMARY KEY CLUSTERED ([TestCode] ASC)
+);
+
